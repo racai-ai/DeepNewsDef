@@ -165,17 +165,23 @@ def main(argv=None) -> int:
     if invalid_count:
         error_counts: dict = {}
         for r in results:
+            if r.valid:
+                continue
+            seen_fields = set()
             for loc, msg in r.errors:
                 parts = loc.rsplit(".", 1)
                 field = parts[-1]
+                if field in seen_fields:
+                    continue
+                seen_fields.add(field)
                 error_counts[field] = error_counts.get(field, 0) + 1
 
         by_freq = sorted(error_counts.items(), key=lambda x: -x[1])
         print(f"\nMost common missing/invalid fields:")
         for field, count in by_freq[:20]:
-            pct = count * 100 // len(results)
+            pct = count * 100 // invalid_count
             bar = "#" * (pct // 5)
-            print(f"  {field:30s} {count:4d}/{len(results)} ({pct:3d}%) {bar}")
+            print(f"  {field:30s} {count:4d}/{invalid_count} ({pct:3d}%) {bar}")
 
     # Write detailed JSON report
     report_path = args.report
