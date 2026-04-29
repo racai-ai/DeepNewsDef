@@ -75,7 +75,8 @@ class TextMetadata(BaseModel):
     id: str
     real_fake: Literal["real", "fake"]
     based_on: str
-    perturbations: str
+    perturbations_applied: str
+    year: int
     filename: str
     creation_date: str
     title: str
@@ -103,8 +104,8 @@ class TextMetadata(BaseModel):
                     "real_fake is 'fake' but generation.model is missing/empty."
                 )
 
-        # Check: perturbations status includes 'perturbations' but no records
-        perturbations_status = self.perturbations or ""
+        # Check: perturbations_applied status includes 'perturbations' but no records
+        perturbations_status = self.perturbations_applied or ""
         if "perturbations" in perturbations_status:
             if len(self.perturbations_list) == 0:
                 warnings.append(
