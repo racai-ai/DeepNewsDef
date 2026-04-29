@@ -79,6 +79,7 @@ class ImageMetadata(BaseModel):
     real_fake: Literal["real", "fake"]
     based_on: str
     manipulations: str
+    year: int
     filename: str
     extension: str
     mime_type: str
