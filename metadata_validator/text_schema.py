@@ -1,5 +1,6 @@
 """Pydantic models for text metadata validation."""
 
+from datetime import date
 from typing import List, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -78,7 +79,7 @@ class TextMetadata(BaseModel):
     perturbations_applied: str
     year: int
     filename: str
-    creation_date: str
+    creation_date: date
     title: str
     summary: str
 
