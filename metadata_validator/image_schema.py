@@ -1,6 +1,7 @@
 """Pydantic models for image metadata validation."""
 
 import os
+from datetime import date
 from typing import List, Literal, Optional, Union
 
 from pydantic import BaseModel, ConfigDict, model_validator
@@ -83,7 +84,7 @@ class ImageMetadata(BaseModel):
     filename: str
     extension: str
     mime_type: str
-    creation_date: str
+    creation_date: date
     url: str
     height: int
     width: int
