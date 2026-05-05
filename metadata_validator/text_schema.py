@@ -115,7 +115,7 @@ class TextMetadata(BaseModel):
                 )
 
         # Check: year in creation_date should match year field
-        if self.creation_date.year != self.year:
+        if self.creation_date and self.creation_date.year != self.year:
             warnings.append(
                 f"creation_date year ({self.creation_date.year}) does not match "
                 f"year field ({self.year})."
