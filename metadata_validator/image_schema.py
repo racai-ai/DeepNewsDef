@@ -1,10 +1,10 @@
 """Pydantic models for image metadata validation."""
 
 import os
-from datetime import date
+from datetime import date, datetime
 from typing import List, Literal, Optional, Union
 
-from pydantic import BaseModel, ConfigDict, model_validator
+from pydantic import BaseModel, ConfigDict, model_validator, field_validator, ValidationInfo
 
 
 class ImageSource(BaseModel):
@@ -55,21 +55,46 @@ class ImageAnnotations(BaseModel):
     no_of_persons: Union[int, str]
     no_of_persons_type: Literal["provided", "automatic", "manual"]
     is_public_figure: Literal["yes", "no", ""]
-    is_public_figure_type: Literal["provided", "automatic", "manual"]
+    is_public_figure_type: Literal["provided", "automatic", "manual", ""]
     text_content_language: str
-    text_content_language_type: Literal["provided", "automatic", "manual"]
+    text_content_language_type: Literal["provided", "automatic", "manual", ""]
     text_romania: Literal["yes", "no", ""]
     text_romania_type: Literal["provided", "automatic", "manual", ""]
     text_moldova: Literal["yes", "no", ""]
     text_moldova_type: Literal["provided", "automatic", "manual", ""]
     image_romania: Literal["yes", "no", ""]
-    image_romania_type: Literal["provided", "automatic", "manual"]
+    image_romania_type: Literal["provided", "automatic", "manual", ""]
     image_moldova: Literal["yes", "no", ""]
     image_moldova_type: Literal["provided", "automatic", "manual"]
     title: str
     title_type: Literal["provided", "automatic", "manual"]
     description: str
     description_type: Literal["provided", "automatic", "manual"]
+
+    @field_validator("is_public_figure_type")
+    @classmethod
+    def validate_public_figure_type(cls, v: str, info: ValidationInfo) -> str:
+        # is_public_figure_type can be empty only if is_public_figure is empty
+        is_public_figure = info.data.get("is_public_figure", "")
+        if v == "" and is_public_figure != "":
+            raise ValueError("is_public_figure_type can only be empty if is_public_figure is empty")
+        return v
+
+    @field_validator("text_content_language_type")
+    @classmethod
+    def validate_text_content_language_type(cls, v: str, info: ValidationInfo) -> str:
+        text_content_language = info.data.get("text_content_language", "")
+        if v == "" and text_content_language != "":
+            raise ValueError("text_content_language_type can only be empty if text_content_language is empty")
+        return v
+
+    @field_validator("image_romania_type")
+    @classmethod
+    def validate_image_romania_type(cls, v: str, info: ValidationInfo) -> str:
+        image_romania = info.data.get("image_romania", "")
+        if v == "" and image_romania != "":
+            raise ValueError("image_romania_type can only be empty if image_romania is empty")
+        return v
 
 
 class ImageMetadata(BaseModel):
@@ -80,11 +105,10 @@ class ImageMetadata(BaseModel):
     real_fake: Literal["real", "fake"]
     based_on: str
     manipulations: str
-    year: int
     filename: str
     extension: str
     mime_type: str
-    creation_date: date
+    creation_date: datetime
     url: str
     height: int
     width: int

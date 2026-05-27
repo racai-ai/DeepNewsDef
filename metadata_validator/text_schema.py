@@ -1,9 +1,9 @@
 """Pydantic models for text metadata validation."""
 
-from datetime import date
+from datetime import date, datetime
 from typing import List, Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator, field_validator, ValidationInfo
 
 
 class TextSource(BaseModel):
@@ -62,11 +62,68 @@ class TextAnnotations(BaseModel):
     lang_other: Literal["yes", "no", ""]
     lang_other_type: Literal["provided", "automatic", "manual", ""]
     is_public_figure: Literal["yes", "no", ""]
-    is_public_figure_type: Literal["provided", "automatic", "manual"]
+    is_public_figure_type: Literal["provided", "automatic", "manual", ""]
     domain: str
     subdomain: str
     summary: str
     summary_type: Literal["provided", "automatic", "manual", ""]
+
+    @field_validator("is_public_figure_type")
+    @classmethod
+    def validate_public_figure_type(cls, v: str, info: ValidationInfo) -> str:
+        # is_public_figure_type can be empty only if is_public_figure is empty
+        is_public_figure = info.data.get("is_public_figure", "")
+        if v == "" and is_public_figure != "":
+            raise ValueError("is_public_figure_type can only be empty if is_public_figure is empty")
+        return v
+
+    @field_validator("text_romania_type")
+    @classmethod
+    def validate_text_romania_type(cls, v: str, info: ValidationInfo) -> str:
+        text_romania = info.data.get("text_romania", "")
+        if v == "" and text_romania != "":
+            raise ValueError("text_romania_type can only be empty if text_romania is empty")
+        return v
+
+    @field_validator("text_moldova_type")
+    @classmethod
+    def validate_text_moldova_type(cls, v: str, info: ValidationInfo) -> str:
+        text_moldova = info.data.get("text_moldova", "")
+        if v == "" and text_moldova != "":
+            raise ValueError("text_moldova_type can only be empty if text_moldova is empty")
+        return v
+
+    @field_validator("lang_ro_type")
+    @classmethod
+    def validate_lang_ro_type(cls, v: str, info: ValidationInfo) -> str:
+        lang_ro = info.data.get("lang_ro", "")
+        if v == "" and lang_ro != "":
+            raise ValueError("lang_ro_type can only be empty if lang_ro is empty")
+        return v
+
+    @field_validator("lang_ru_type")
+    @classmethod
+    def validate_lang_ru_type(cls, v: str, info: ValidationInfo) -> str:
+        lang_ru = info.data.get("lang_ru", "")
+        if v == "" and lang_ru != "":
+            raise ValueError("lang_ru_type can only be empty if lang_ru is empty")
+        return v
+
+    @field_validator("lang_other_type")
+    @classmethod
+    def validate_lang_other_type(cls, v: str, info: ValidationInfo) -> str:
+        lang_other = info.data.get("lang_other", "")
+        if v == "" and lang_other != "":
+            raise ValueError("lang_other_type can only be empty if lang_other is empty")
+        return v
+
+    @field_validator("summary_type")
+    @classmethod
+    def validate_summary_type(cls, v: str, info: ValidationInfo) -> str:
+        summary = info.data.get("summary", "")
+        if v == "" and summary != "":
+            raise ValueError("summary_type can only be empty if summary is empty")
+        return v
 
 
 class TextMetadata(BaseModel):
@@ -77,9 +134,8 @@ class TextMetadata(BaseModel):
     real_fake: Literal["real", "fake"]
     based_on: str
     perturbations_applied: str
-    year: int
     filename: str
-    creation_date: date
+    creation_date: datetime
     title: str
     summary: str
 

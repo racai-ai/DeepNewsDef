@@ -169,8 +169,7 @@ def main(argv=None) -> int:
                 continue
             seen_fields = set()
             for loc, msg in r.errors:
-                parts = loc.rsplit(".", 1)
-                field = parts[-1]
+                field = loc
                 if field in seen_fields:
                     continue
                 seen_fields.add(field)
