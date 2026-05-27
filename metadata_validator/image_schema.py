@@ -23,15 +23,15 @@ class ImageSource(BaseModel):
 class ImageGeneration(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    model: str
-    quantization: str
-    prompt: str
-    neg_prompt: str
-    category: str
-    steps: str
-    guidance_scale: str
-    type: str
-    additional_image: str
+    model: Optional[str] = None
+    quantization: Optional[str] = None
+    prompt: Optional[str] = None
+    neg_prompt: Optional[str] = None
+    category: Optional[str] = None
+    steps: Optional[str] = None
+    guidance_scale: Optional[str] = None
+    type: Optional[str] = None
+    additional_image: Optional[str] = None
 
 
 class ImageFilter(BaseModel):
@@ -134,10 +134,17 @@ class ImageMetadata(BaseModel):
 
         # Check: fake + generation manipulation but no generation data
         if self.real_fake == "fake" and "generation" in manipulations:
-            if not self.generation.model:
+            if not self.generation or not self.generation.model:
                 warnings.append(
                     "real_fake is 'fake' with 'generation' manipulation, "
                     "but generation data or generation.model is missing/empty."
+                )
+
+        # Check: real image should have empty generation
+        if self.real_fake == "real":
+            if self.generation and self.generation.model:
+                warnings.append(
+                    "real_fake is 'real' but generation data is provided."
                 )
 
         # Check: fake + filters manipulation but no filters data

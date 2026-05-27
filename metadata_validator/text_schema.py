@@ -24,12 +24,12 @@ class TextSource(BaseModel):
 class TextGeneration(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    model: str
-    quantization: str
-    temperature: float
-    prompt: str
-    generation_type: Literal["complete", "based_on_real_article", "based_on_topic"]
-    paragraphs: List
+    model: Optional[str] = None
+    quantization: Optional[str] = None
+    temperature: Optional[float] = None
+    prompt: Optional[str] = None
+    generation_type: Optional[Literal["complete", "based_on_real_article", "based_on_topic", ""]] = None
+    paragraphs: Optional[List] = None
 
 
 class TextPerturbation(BaseModel):
@@ -156,9 +156,16 @@ class TextMetadata(BaseModel):
 
         # Check: fake text should have generation data
         if self.real_fake == "fake":
-            if not self.generation.model:
+            if not self.generation or not self.generation.model:
                 warnings.append(
                     "real_fake is 'fake' but generation.model is missing/empty."
+                )
+
+        # Check: real text should have empty generation
+        if self.real_fake == "real":
+            if self.generation and self.generation.model:
+                warnings.append(
+                    "real_fake is 'real' but generation data is provided."
                 )
 
         # Check: perturbations_applied status includes 'perturbations' but no records
