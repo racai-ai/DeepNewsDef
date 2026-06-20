@@ -353,8 +353,8 @@ def parse_args():
     )
     parser.add_argument(
         "--config",
-        default="synthetic_news_text_generator/config.yaml",
-        help="Path to config.yaml (default: synthetic_news_text_generator/config.yaml)",
+        default="config.yaml",
+        help="Path to config.yaml (default: config.yaml, resolved relative to the module directory)",
     )
     # Mutually exclusive count modes
     count_group = parser.add_mutually_exclusive_group(required=True)
