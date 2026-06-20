@@ -1,0 +1,335 @@
+
+# ---------------------------------------------------------------------------
+# Default sampling parameters — shared by most models.
+# Individual models can override any of these with their own values.
+# ---------------------------------------------------------------------------
+_default_params: &default_params
+  endpoint: "http://localhost:11434/v1"
+  quantization: "q4_K_M"
+  temperature_range: [0.2, 0.5, 0.7, 0.9, 1.0]
+  top_p_range: [0.85, 0.9, 0.95, 1.0]
+  frequency_penalty_range: [0.0, 0.1, 0.3]
+  presence_penalty_range: [0.0, 0.1, 0.3]
+  max_tokens: 2000
+
+# ---------------------------------------------------------------------------
+# Quantization overrides — merged BEFORE *default_params so they take priority.
+# Usage:  <<: [*q8, *default_params]
+# ---------------------------------------------------------------------------
+_q4:   &q4   { quantization: "q4_K_M" }
+_q8:   &q8   { quantization: "q8_0"   }
+_fp16: &fp16 { quantization: "fp16"   }
+
+llms:
+  # --- Ollama Models ---
+  # Verify exact tags before pulling: https://ollama.com/library/<model>
+  # Pull example: ollama pull llama3.2:3b-instruct-q8_0
+
+  # ── Gemma 4 (Google) ──────────────────────────────────────────────────────
+  # e4b is the only publicly available quantization via Ollama for gemma4.
+  - <<: [*q4, *default_params]
+    name: "gemma4:e4b"
+    display_name: "gemma4:e4b"
+    quantization: "e4b"
+    temperature_range: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    top_p_range: [0.8, 0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.1, 0.2, 0.3]
+    presence_penalty_range: [0.0, 0.2, 0.5]
+
+  # ── Llama 3.2 3B (Meta) ───────────────────────────────────────────────────
+  - <<: [*q4, *default_params]
+    name: "llama3.2:3b"                          # ollama pull llama3.2:3b
+    display_name: "llama3.2:3b"
+
+  - <<: [*q8, *default_params]
+    name: "llama3.2:3b-instruct-q8_0"           # ollama pull llama3.2:3b-instruct-q8_0
+    display_name: "llama3.2:3b"
+
+  - <<: [*fp16, *default_params]
+    name: "llama3.2:3b-instruct-fp16"           # ollama pull llama3.2:3b-instruct-fp16
+    display_name: "llama3.2:3b"
+
+  # ── Llama 3.1 8B (Meta) ───────────────────────────────────────────────────
+  - <<: [*q4, *default_params]
+    name: "llama3.1:8b"                          # ollama pull llama3.1:8b
+    display_name: "llama3.1:8b"
+
+  - <<: [*q8, *default_params]
+    name: "llama3.1:8b-instruct-q8_0"           # ollama pull llama3.1:8b-instruct-q8_0
+    display_name: "llama3.1:8b"
+
+  - <<: [*fp16, *default_params]
+    name: "llama3.1:8b-instruct-fp16"           # ollama pull llama3.1:8b-instruct-fp16
+    display_name: "llama3.1:8b"
+
+  # ── Mistral 7B (Mistral AI) ───────────────────────────────────────────────
+  - <<: [*q4, *default_params]
+    name: "mistral:7b"                           # ollama pull mistral:7b
+    display_name: "mistral:7b"
+    temperature_range: [0.2, 0.5, 0.7, 1.0]
+    top_p_range: [0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.2, 0.5]
+    presence_penalty_range: [0.0, 0.2]
+    max_tokens: 2048
+
+  - <<: [*q8, *default_params]
+    name: "mistral:7b-instruct-q8_0"            # ollama pull mistral:7b-instruct-q8_0
+    display_name: "mistral:7b"
+    temperature_range: [0.2, 0.5, 0.7, 1.0]
+    top_p_range: [0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.2, 0.5]
+    presence_penalty_range: [0.0, 0.2]
+    max_tokens: 2048
+
+  - <<: [*fp16, *default_params]
+    name: "mistral:7b-instruct-fp16"            # ollama pull mistral:7b-instruct-fp16
+    display_name: "mistral:7b"
+    temperature_range: [0.2, 0.5, 0.7, 1.0]
+    top_p_range: [0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.2, 0.5]
+    presence_penalty_range: [0.0, 0.2]
+    max_tokens: 2048
+
+  # ── Qwen 2.5 7B (Alibaba) ────────────────────────────────────────────────
+  - <<: [*q4, *default_params]
+    name: "qwen2.5:7b"                           # ollama pull qwen2.5:7b
+    display_name: "qwen2.5:7b"
+    temperature_range: [0.3, 0.6, 0.8, 1.0]
+    top_p_range: [0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.1, 0.2]
+    presence_penalty_range: [0.0, 0.1]
+
+  - <<: [*q8, *default_params]
+    name: "qwen2.5:7b-instruct-q8_0"            # ollama pull qwen2.5:7b-instruct-q8_0
+    display_name: "qwen2.5:7b"
+    temperature_range: [0.3, 0.6, 0.8, 1.0]
+    top_p_range: [0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.1, 0.2]
+    presence_penalty_range: [0.0, 0.1]
+
+  - <<: [*fp16, *default_params]
+    name: "qwen2.5:7b-instruct-fp16"            # ollama pull qwen2.5:7b-instruct-fp16
+    display_name: "qwen2.5:7b"
+    temperature_range: [0.3, 0.6, 0.8, 1.0]
+    top_p_range: [0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.1, 0.2]
+    presence_penalty_range: [0.0, 0.1]
+
+  # ── Phi-4 14B (Microsoft) ────────────────────────────────────────────────
+  - <<: [*q4, *default_params]
+    name: "phi4:14b"                             # ollama pull phi4:14b
+    display_name: "phi4:14b"
+    temperature_range: [0.2, 0.4, 0.7, 0.9]
+    top_p_range: [0.85, 0.95, 1.0]
+    presence_penalty_range: [0.0, 0.2]
+
+  - <<: [*q8, *default_params]
+    name: "phi4:14b-instruct-q8_0"              # ollama pull phi4:14b-instruct-q8_0
+    display_name: "phi4:14b"
+    temperature_range: [0.2, 0.4, 0.7, 0.9]
+    top_p_range: [0.85, 0.95, 1.0]
+    presence_penalty_range: [0.0, 0.2]
+
+  # ── DeepSeek-R1 7B (DeepSeek) ────────────────────────────────────────────
+  # Reasoning model; CoT traces are stripped before saving by the pipeline.
+  - <<: [*q4, *default_params]
+    name: "deepseek-r1:7b"                       # ollama pull deepseek-r1:7b
+    display_name: "deepseek-r1:7b"
+    temperature_range: [0.3, 0.5, 0.7, 0.9]
+    top_p_range: [0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.1, 0.2]
+    presence_penalty_range: [0.0, 0.1]
+    max_tokens: 2048
+
+  - <<: [*q8, *default_params]
+    name: "deepseek-r1:7b-qwen-distill-q8_0"   # ollama pull deepseek-r1:7b-qwen-distill-q8_0
+    display_name: "deepseek-r1:7b"
+    temperature_range: [0.3, 0.5, 0.7, 0.9]
+    top_p_range: [0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.1, 0.2]
+    presence_penalty_range: [0.0, 0.1]
+    max_tokens: 2048
+
+  # ── Aya Expanse 8B (Cohere) ──────────────────────────────────────────────
+  # Purpose-built for 23 languages incl. Romanian.
+  - <<: [*q4, *default_params]
+    name: "aya-expanse:8b"                       # ollama pull aya-expanse:8b
+    display_name: "aya-expanse:8b"
+    temperature_range: [0.3, 0.6, 0.8, 1.0]
+    frequency_penalty_range: [0.0, 0.1, 0.2, 0.3]
+    presence_penalty_range: [0.0, 0.1, 0.2]
+
+  - <<: [*q8, *default_params]
+    name: "aya-expanse:8b-q8_0"                 # ollama pull aya-expanse:8b-q8_0
+    display_name: "aya-expanse:8b"
+    temperature_range: [0.3, 0.6, 0.8, 1.0]
+    frequency_penalty_range: [0.0, 0.1, 0.2, 0.3]
+    presence_penalty_range: [0.0, 0.1, 0.2]
+
+  - <<: [*fp16, *default_params]
+    name: "aya-expanse:8b-fp16"                 # ollama pull aya-expanse:8b-fp16
+    display_name: "aya-expanse:8b"
+    temperature_range: [0.3, 0.6, 0.8, 1.0]
+    frequency_penalty_range: [0.0, 0.1, 0.2, 0.3]
+    presence_penalty_range: [0.0, 0.1, 0.2]
+
+  # ── Gemma 3 4B (Google) ──────────────────────────────────────────────────
+  - <<: [*q4, *default_params]
+    name: "gemma3:4b"                            # ollama pull gemma3:4b
+    display_name: "gemma3:4b"
+    temperature_range: [0.2, 0.4, 0.6, 0.8, 1.0]
+    top_p_range: [0.8, 0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.1, 0.2, 0.3]
+    presence_penalty_range: [0.0, 0.2, 0.4]
+
+  - <<: [*q8, *default_params]
+    name: "gemma3:4b-it-q8_0"                   # ollama pull gemma3:4b-it-q8_0
+    display_name: "gemma3:4b"
+    temperature_range: [0.2, 0.4, 0.6, 0.8, 1.0]
+    top_p_range: [0.8, 0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.1, 0.2, 0.3]
+    presence_penalty_range: [0.0, 0.2, 0.4]
+
+  - <<: [*fp16, *default_params]
+    name: "gemma3:4b-it-fp16"                   # ollama pull gemma3:4b-it-fp16
+    display_name: "gemma3:4b"
+    temperature_range: [0.2, 0.4, 0.6, 0.8, 1.0]
+    top_p_range: [0.8, 0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.1, 0.2, 0.3]
+    presence_penalty_range: [0.0, 0.2, 0.4]
+
+  # ── Mistral Nemo 12B (Mistral + NVIDIA) ──────────────────────────────────
+  - <<: [*q4, *default_params]
+    name: "mistral-nemo:12b"                     # ollama pull mistral-nemo:12b
+    display_name: "mistral-nemo:12b"
+    temperature_range: [0.2, 0.5, 0.7, 1.0]
+    top_p_range: [0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.2, 0.4]
+    presence_penalty_range: [0.0, 0.2]
+    max_tokens: 2048
+
+  - <<: [*q8, *default_params]
+    name: "mistral-nemo:12b-instruct-2407-q8_0" # ollama pull mistral-nemo:12b-instruct-2407-q8_0
+    display_name: "mistral-nemo:12b"
+    temperature_range: [0.2, 0.5, 0.7, 1.0]
+    top_p_range: [0.9, 0.95, 1.0]
+    frequency_penalty_range: [0.0, 0.2, 0.4]
+    presence_penalty_range: [0.0, 0.2]
+    max_tokens: 2048
+
+target_countries:
+  - "România"
+  - "Republica Moldova"
+
+viewpoints:
+  - "pozitivă"
+  - "neutră"
+  - "negativă"
+  
+lengths:
+  - "scurtă"
+  - "medie"
+  - "lungă"
+  
+platforms:
+  - "știri normale"
+  - "știre pentru un portal web"
+  - "postare pe Telegram"
+  - "fir de discuții pe Reddit"
+  - "scenariu pentru TikTok"
+  - "postare pe Facebook"
+    
+personas:
+  - "jurnalist de investigație"
+  - "prezentator TV de știri"
+  - "redactor-șef al unei publicații locale"
+  - "redactor de tabloid"
+  - "editorialist politic"
+  - "bot agregator de știri"
+  - "blogger de opinie"
+  - "influencer care comentează știri pe rețelele sociale"
+  - "administrator de canal Telegram de știri pe surse"
+  - "comentator radio"
+  - "corespondent extern"
+
+grammar_levels:
+  - "impecabilă, fără greșeli"
+  - "medie, cu elemente colocviale și câteva mici scăpări"
+  - "slabă, cu greșeli frecvente gramaticale și de punctuație"
+
+manipulation_levels:
+  - "lipsită de manipulare, pur informativă și obiectivă"
+  - "slabă, cu mici nuanțe de subiectivism sau omisiuni convenabile"
+  - "medie, cu elemente clare de dramatizare, generalizări și apel la emoții"
+  - "puternică, o veritabilă propagandă, care denaturează agresiv faptele și atacă opoziția"
+
+topics:
+  - domain: "Politică"
+    subdomains: ["Alegeri", "Relații Externe", "Corupție"]
+  - domain: "Economie"
+    subdomains: ["Inflație", "Imobiliare", "Criptomonede"]
+  - domain: "Sănătate"
+    subdomains: ["Pandemie", "Sistemul Medical", "Nutriție"]
+  - domain: "Tehnologie"
+    subdomains: ["Inteligență Artificială", "Cybersecurity", "Gadgeturi"]
+  - domain: "Divertisment"
+    subdomains: ["Vedete", "Filme", "Scandaluri"]
+  - domain: "Educație"
+    subdomains: ["Reforme", "Examene Naționale", "Abandon Școlar"]
+  - domain: "Sport"
+    subdomains: ["Fotbal", "Jocurile Olimpice", "Campionate"]
+  - domain: "Mediu"
+    subdomains: ["Schimbări Climatice", "Poluare", "Energie Verde"]
+  - domain: "Societate"
+    subdomains: ["Proteste", "Drepturile Omului", "Pensii"]
+  - domain: "Justiție"
+    subdomains: ["Legi Noi", "Dosare Penale", "Magistrați"]
+  - domain: "Agricultură"
+    subdomains: ["Secetă și Recolta", "Exporturi de Cereale", "Fermieri vs. Supermarketuri"]
+  - domain: "Infrastructură"
+    subdomains: ["Autostrăzi", "Transport Feroviar", "Fonduri PNRR", "Lucrări Publice Întârziate"]
+  - domain: "Apărare și Securitate"
+    subdomains: ["Baza NATO", "Războiul din Ucraina", "Achiziții Militare", "Securitate Cibernetică Națională"]
+  - domain: "Diaspora și Migrație"
+    subdomains: ["Condiții de Muncă în Străinătate", "Remitențe", "Întoarcerea Acasă", "Muncitori Asiatici în RO/MD"]
+  - domain: "Turism"
+    subdomains: ["Prețuri pe Litoral", "Turism Montan", "Criza HoReCa", "Promovare Turistică"]
+  - domain: "Religie și Tradiții"
+    subdomains: ["Biserica Ortodoxă", "Pelerinaje", "Sărbători Legale", "Dispute Clericale"]
+  - domain: "Cultură"
+    subdomains: ["Festivaluri de Muzică (Untold/Electric)", "Patrimoniu UNESCO", "Expoziții de Artă", "Finanțarea Culturii"]
+  - domain: "Internațional"
+    subdomains: ["Directive UE", "Alegeri SUA", "Crize Geopolitice", "Schengen"]
+  - domain: "Piața Muncii"
+    subdomains: ["Șomaj", "Work from Home", "Sindicate și Greve", "Generația Z la Job"]
+
+propaganda_techniques:
+  - "Niciuna (abordare obiectivă, asertivă, bazată pe fapte)"
+  - "Whataboutism (schimbarea subiectului, 'da, dar stați să vedeți ce făceau ceilalți...')"
+  - "Apelul la frică / Alarmism (exagerarea unui pericol iminent)"
+  - "Omul de paie (denaturarea sau vulgarizarea argumentelor opoziției pentru a le ataca mai simplu)"
+  - "Cherry-picking (selectarea foarte convenabilă a unor date izolate care susțin o narativă falsă)"
+  - "Falsă dilemă (prezentarea a doar două opțiuni extreme, sugerând că una e catastrofală)"
+
+target_audiences:
+  - "Public general"
+  - "Pensionari (ton cu grijă față de pensii, nostalgie, costul vieții)"
+  - "Tineri / Generația Z (limbaj alert, colocvial, glume, focus pe tehnologie și ecologie)"
+  - "Părinți (accent pe familie, siguranța copiilor, viitorul școlar)"
+  - "Oameni de afaceri / Corporatiști (ton pragmatic, focus pe economie, taxe și piața muncii)"
+  - "Public rural (focus pe tradiții, agricultură, chestiuni practice locale)"
+
+urgency_levels:
+  - "Știre de rutină (ritm normal, expozitiv)"
+  - "Breaking News / Alertă Maximă (alert, alarmant, scurt și la obiect, propoziții scurte și exclamații)"
+  - "Analiză aprofundată (ritm lent, fraze complexe, detaliat, cadru istoric)"
+  - "Editorial vehement (ritm apăsat, dezbatere pătimașă, argumentativ)"
+
+formatting_styles:
+  - "Standard (paragrafe echilibrate, titlu clar)"
+  - "Clickbait agresiv (titlu senzațional cu CAPS LOCK, semne de exclamare, stil interogativ de intrigă)"
+  - "Academic / Pretențios (limbaj lemnos, termeni complicați, formalități obositoare)"
+  - "Emotiv / Lăcrimogen (apel puternic la sentimente, epitete puternice și subiective)"
+
+output_directory: "../generated_dataset/"
+use_wikipedia_seed: "random"
