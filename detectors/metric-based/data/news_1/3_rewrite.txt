@@ -1,0 +1,15 @@
+Inteligența artificială deschide noi perspective în diagnosticarea timpurie a ADHD la copii
+
+Inteligența artificială începe să joace un rol tot mai important în domeniul medical, iar una dintre cele mai promițătoare direcții este identificarea timpurie a tulburărilor de dezvoltare la copii. Cercetări recente arată că sistemele bazate pe AI ar putea detecta riscul apariției ADHD cu mult înainte ca simptomele evidente să fie observate de părinți sau specialiști.
+
+ADHD, cunoscut drept tulburare de deficit de atenție și hiperactivitate, afectează milioane de copii la nivel global. Afecțiunea se manifestă prin dificultăți de concentrare, impulsivitate și hiperactivitate, iar diagnosticarea întârziată poate avea efecte negative asupra performanței școlare, relațiilor sociale și dezvoltării emoționale. Din acest motiv, identificarea precoce este considerată esențială pentru aplicarea unor intervenții eficiente.
+
+Un studiu amplu realizat de cercetători americani a analizat datele medicale a peste 140.000 de copii, utilizând un model de inteligență artificială capabil să recunoască tipare greu de observat prin metode tradiționale. Sistemul a evaluat informații legate de dezvoltarea copilului, istoricul medical și anumite comportamente care, împreună, pot indica un risc crescut de ADHD.
+
+Rezultatele cercetării sugerează că algoritmul poate prezice cu un grad ridicat de precizie apariția tulburării, în special în cazul copiilor mai mari de cinci ani. Mai mult, eficiența sistemului s-a menținut constantă indiferent de sex, rasă sau situație socio-economică, ceea ce reprezintă un avantaj important în procesul de diagnosticare.
+
+Specialiștii subliniază însă că inteligența artificială nu este destinată să înlocuiască medicii sau psihologii. Rolul acestei tehnologii este de a oferi un sprijin suplimentar, ajutând cadrele medicale să identifice mai rapid copiii care ar putea avea nevoie de evaluări detaliate. Astfel, timpul de așteptare pentru consultații și intervenții ar putea fi redus considerabil.
+
+Experții consideră că utilizarea AI în sănătatea mintală ar putea deveni tot mai răspândită în următorii ani. Metode similare ar putea fi aplicate și pentru alte afecțiuni psihologice, mai ales în rândul adolescenților, unde semnele timpurii sunt adesea greu de observat. În plus, cercetătorii atrag atenția că ADHD este frecvent subdiagnosticat la fete, deoarece simptomele pot fi mai puțin evidente decât în cazul băieților.
+
+Pe fondul creșterii numărului de tulburări psihologice în rândul tinerilor, dezvoltarea unor instrumente capabile să ofere avertizări timpurii ar putea transforma modul în care sunt abordate aceste probleme. Detectarea rapidă și intervențiile aplicate la momentul potrivit pot avea un impact major asupra calității vieții copiilor și familiilor lor.
