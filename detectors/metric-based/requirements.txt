@@ -1,0 +1,8 @@
+stanza
+spacy
+trankit
+conllu
+numpy
+scikit-learn
+nltk
+tqdm

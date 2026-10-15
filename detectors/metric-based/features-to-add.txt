@@ -1,0 +1,3 @@
+- frecvența cazului dativ/genitiv
+- traduceri forțate (e.g. locație)
+- spelling errors/grammar errors

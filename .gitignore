@@ -205,3 +205,8 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+detectors/metric-based/.vscode/launch.json
+detectors/metric-based/sources.txt
+detectors/metric-based/data/*/*.conllu
+detectors/metric-based/.env
